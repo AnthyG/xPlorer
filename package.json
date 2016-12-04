@@ -1,7 +1,7 @@
 {
     "name": "xplorer",
     "version": "0.0.2",
-    "description": "The Material-Design-better-looking replacement for the default explorer.",
+    "description": "The better-looking Material-Design replacement for the default file-explorer.",
     "main": "main.js",
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1"
