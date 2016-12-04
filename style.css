@@ -1,0 +1,64 @@
+body {
+    background-color: #efefef;
+    color: #212121;
+    margin: 8px;
+    padding-top: 1.4rem;
+    font-family: 'Roboto', sans-serif;
+}
+
+.mdi {
+    font-family: 'Material Icons';
+    font-weight: normal;
+    font-style: normal;
+    /*   font-size: 24px; */
+    display: inline-block;
+    line-height: 1;
+    text-transform: none;
+    letter-spacing: normal;
+    word-wrap: normal;
+    white-space: nowrap;
+    direction: ltr;
+    /* Support for all WebKit browsers. */
+    -webkit-font-smoothing: antialiased;
+    /* Support for Safari and Chrome. */
+    text-rendering: optimizeLegibility;
+    /* Support for Firefox. */
+    -moz-osx-font-smoothing: grayscale;
+    /* Support for IE. */
+    font-feature-settings: 'liga';
+}
+
+button {
+    -webkit-app-region: no-drag;
+}
+
+.DRAGHEADER {
+    -webkit-app-region: drag;
+    height: 4rem;
+    width: 100%;
+    background-color: #5764c6;
+    color: #efefef;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: -1;
+    text-align: center;
+}
+
+.upperbar {
+    width: 100%;
+    height: 3.2rem;
+}
+
+.upperbar #pathinput {
+    -webkit-app-region: no-drag;
+}
+
+#pathcrumbs {
+    background-color: #efefef;
+    color: #5764c6;
+}
+
+#pathcntnt {
+    list-style: none;
+}

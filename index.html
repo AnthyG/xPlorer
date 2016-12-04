@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <script src="./jquery.min.js" onload="window.$ = window.jQuery = module.exports;"></script>
+
+    <link rel="stylesheet" type="text/css" href="./spectre.css" />
+    <link rel="stylesheet" type="text/css" href="./style.min.css" />
+
+    <!-- Material Design fonts -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700" type="text/css" />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" />
+
+    <title>xPlorer</title>
+</head>
+
+<body>
+    <div class="DRAGHEADER"><span>xPlorer</span></div>
+    <div class="upperbar">
+
+        <!-- normal input group with button -->
+        <div class="input-group">
+            <button class="btn btn-primary input-group-btn"><i class="mdi">arrow_back</i></button>
+            <button class="btn btn-primary input-group-btn"><i class="mdi">arrow_forward</i></button>
+            <button class="btn btn-primary input-group-btn"><i class="mdi">arrow_upward</i></button>
+            <input id="pathinput" type="text" class="form-input" placeholder="path" />
+            <button onclick="alert('REFRESH');" class="btn btn-primary input-group-btn"><i class="mdi">refresh</i></button>
+        </div>
+
+    </div>
+    <!-- All of the Node.js APIs are available in this renderer process. -->
+    <!--We are using node
+    <script>
+        document.write(process.versions.node)
+    </script>, Chromium
+    <script>
+        document.write(process.versions.chrome)
+    </script>, and Electron
+    <script>
+        document.write(process.versions.electron)
+    </script>.-->
+    <ul id="pathcrumbs" class="breadcrumb hide"></ul>
+    <ul id="pathcntnt"></ul>
+</body>
+
+<script>
+    // You can also require other files to run in this process
+    require('./renderer.js')
+</script>
+
+</html>
