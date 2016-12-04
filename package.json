@@ -1,6 +1,6 @@
 {
     "name": "xplorer",
-    "version": "0.0.2",
+    "version": "0.0.6",
     "description": "The better-looking Material-Design replacement for the default file-explorer.",
     "main": "main.js",
     "scripts": {

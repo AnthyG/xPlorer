@@ -6,12 +6,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
     <script src="./jquery.min.js" onload="window.$ = window.jQuery = module.exports;"></script>
+    <script src="./jquery.hotkeys.min.js"></script>
 
-    <link rel="stylesheet" type="text/css" href="./spectre.css" />
+    <link rel="stylesheet" type="text/css" href="./spectre.min.css" />
     <link rel="stylesheet" type="text/css" href="./style.min.css" />
 
     <!-- Material Design fonts -->
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700" type="text/css" />
+    <!--<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700" type="text/css" />-->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" />
 
@@ -19,18 +20,28 @@
 </head>
 
 <body>
-    <div class="DRAGHEADER"><span>xPlorer</span></div>
-    <div class="upperbar">
-
-        <!-- normal input group with button -->
-        <div class="input-group">
-            <button class="btn btn-primary input-group-btn"><i class="mdi">arrow_back</i></button>
-            <button class="btn btn-primary input-group-btn"><i class="mdi">arrow_forward</i></button>
-            <button class="btn btn-primary input-group-btn"><i class="mdi">arrow_upward</i></button>
-            <input id="pathinput" type="text" class="form-input" placeholder="path" />
-            <button onclick="alert('REFRESH');" class="btn btn-primary input-group-btn"><i class="mdi">refresh</i></button>
+    <div class="CUpperBar fixed">
+        <div class="DRAGHEADER text-center"><span>xPlorer</span>
+            <div id="title-bar-btns">
+                <button id="min-btn"></button>
+                <button id="max-btn"></button>
+                <button id="close-btn"></button>
+            </div>
         </div>
+        <div class="upperbar">
+            <div class="input-group">
+                <button class="path_back btn btn-primary input-group-btn path-part"><i class="mdi">arrow_back</i></button>
+                <button class="path_for btn btn-primary input-group-btn path-part"><i class="mdi">arrow_forward</i></button>
+                <button class="path_up btn btn-primary input-group-btn path-part"><i class="mdi">arrow_upward</i></button>
+                <input id="pathinput" type="text" class="form-input hide" placeholder="path" />
+                <ul id="pathcrumbs" class="form-input path-part breadcrumb"></ul>
+                <button class="path_refresh btn btn-primary input-group-btn path-part"><i class="mdi">refresh</i></button>
 
+                <input id="searchinput" type="text" class="form-input search-part hide" placeholder="search" />
+                <button id="searchgo" class="btn btn-primary input-group-btn search-part hide">Go</button>
+                <button id="searchopener" class="btn btn-primary input-group-btn"><i class="mdi">search</i></button>
+            </div>
+        </div>
     </div>
     <!-- All of the Node.js APIs are available in this renderer process. -->
     <!--We are using node
@@ -43,8 +54,21 @@
     <script>
         document.write(process.versions.electron)
     </script>.-->
-    <ul id="pathcrumbs" class="breadcrumb hide"></ul>
-    <ul id="pathcntnt"></ul>
+    <div id="pathcntnt">
+        <ul class="pathcntnt dirs"></ul>
+        <div class="divider"></div>
+        <table class="pathcntntC table table-hover">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Last Changed</th>
+                    <th>Size</th>
+                </tr>
+            </thead>
+            <tbody class="pathcntnt files"></tbody>
+        </table>
+        <!--<ul class="pathcntnt files"></ul>-->
+    </div>
 </body>
 
 <script>

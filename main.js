@@ -4,6 +4,10 @@ const app = electron.app
     // Module to create native browser window.
 const BrowserWindow = electron.BrowserWindow
 
+const Menu = electron.Menu
+const MenuItem = electron.MenuItem
+const ipc = electron.ipcMain
+
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow
@@ -53,3 +57,52 @@ app.on('activate', function() {
 
 // In this file you can include the rest of your app's specific main process
 // code. You can also put them in separate files and require them here.
+var BACKSEND = undefined
+const menu_file = new Menu()
+const menu_file_arr = {
+    'Open': {
+        label: 'Open',
+        click: function(menuItem, browserWindow, event) {
+            BACKSEND.sender.send('OPEN', 'pong')
+        }
+    },
+    '': '',
+    'Cut': {
+        label: 'Cut'
+    },
+    'Copy': {
+        label: 'Copy'
+    },
+    'Paste': {
+        label: 'Paste'
+    },
+    '': '',
+    'Rename': {
+        label: 'Rename'
+    },
+    'Delete': {
+        label: 'Delete'
+    }
+}
+for (let arrX in menu_file_arr) {
+    var arrY = menu_file_arr[arrX]
+    if (arrY === '') {
+        menu_file.append(new MenuItem({
+            type: 'separator'
+        }))
+    } else {
+        menu_file.append(new MenuItem(arrY))
+    }
+}
+
+// app.on('browser-window-created', function(event, win) {
+//     win.webContents.on('context-menu', function(e, params) {
+//         menu_file.popup(win, params.x, params.y)
+//     })
+// })
+
+ipc.on('show-menu_file', function(event) {
+    BACKSEND = event
+    const win = BrowserWindow.fromWebContents(event.sender)
+    menu_file.popup(win)
+})

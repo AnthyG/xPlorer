@@ -1,9 +1,52 @@
+::-webkit-scrollbar {
+    -webkit-transition: all 0.25s ease-in-out;
+    /* Firefox */
+    -moz-transition: all 0.25s ease-in-out;
+    /* WebKit */
+    -o-transition: all 0.25s ease-in-out;
+    /* Opera */
+    transition: all 0.25s ease-in-out;
+    /* Standard */
+}
+
+::-webkit-scrollbar:horizontal {
+    height: 0.35rem;
+    width: 100%;
+}
+
+::-webkit-scrollbar:vertical {
+    height: 100%;
+    width: 0.35rem;
+}
+
+::-webkit-scrollbar-thumb {
+    background: rgba(0, 0, 0, 0.2);
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: rgba(0, 0, 0, 0.4);
+}
+
+::-webkit-scrollbar-track {
+    background-color: transparent;
+}
+
 body {
-    background-color: #efefef;
-    color: #212121;
+    background-color: #ffffff;
+    color: #333333;
     margin: 8px;
-    padding-top: 1.4rem;
-    font-family: 'Roboto', sans-serif;
+    padding-top: 5rem;
+    overflow-y: scroll;
+    /*font-family: 'Roboto', sans-serif;*/
+}
+
+body::-webkit-scrollbar:vertical {
+    width: 1.5rem;
+    background-color: #5764c6;
+}
+
+body::-webkit-scrollbar-thumb {
+    /*background-color: rgba(255, 255, 255, 0.4);*/
 }
 
 .mdi {
@@ -32,22 +75,85 @@ button {
     -webkit-app-region: no-drag;
 }
 
+.CUpperBar {
+    width: 100%;
+    left: 0;
+    top: 0;
+    z-index: 1;
+    height: calc(3.2rem / 2 + 4rem);
+}
+
 .DRAGHEADER {
     -webkit-app-region: drag;
     height: 4rem;
     width: 100%;
+    padding-top: 0.2rem;
     background-color: #5764c6;
     color: #efefef;
-    position: absolute;
-    top: 0;
-    left: 0;
     z-index: -1;
-    text-align: center;
+    -webkit-box-shadow: 0px 0px 75px 15px rgba(0, 0, 0, 0.5);
+    -moz-box-shadow: 0px 0px 75px 15px rgba(0, 0, 0, 0.5);
+    box-shadow: 0px 0px 75px 15px rgba(0, 0, 0, 0.5);
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+#title-bar-btns {
+    -webkit-app-region: no-drag;
+    position: fixed;
+    top: 0px;
+    right: 4px;
+}
+
+#title-bar-btns>button {
+    border-radius: 50%;
+    line-height: 0;
+    font-size: 16px;
+    position: relative;
+    display: block;
+    float: left;
+    width: 1.4rem;
+    height: 1.4rem;
+    margin: 0.45rem;
+    border: none;
+    outline: none;
+}
+
+#title-bar-btns>button:hover::after {
+    content: " ";
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    right: 0px;
+    bottom: 0px;
+    width: 100%;
+    height: 100%;
+    /*cursor: pointer;*/
+    background-color: rgba(0, 0, 0, 0.15);
+    border-radius: 50%;
+}
+
+#title-bar-btns>#min-btn {
+    background-color: rgb(255, 189, 45);
+}
+
+#title-bar-btns>#max-btn {
+    background-color: rgb(42, 208, 65);
+}
+
+#title-bar-btns>#close-btn {
+    background-color: rgb(255, 96, 85);
 }
 
 .upperbar {
     width: 100%;
     height: 3.2rem;
+    margin-top: -1.6rem;
+    padding: 0 1rem;
 }
 
 .upperbar #pathinput {
@@ -55,10 +161,37 @@ button {
 }
 
 #pathcrumbs {
-    background-color: #efefef;
-    color: #5764c6;
+    -webkit-app-region: no-drag;
+    margin: 0;
+    padding: 0.6rem 1.2rem;
+    height: 3.2rem;
+    white-space: nowrap;
+    overflow-y: hidden;
+    overflow-x: scroll;
+    -webkit-overflow-scrolling: touch;
+}
+
+#pathcrumbs:hover::-webkit-scrollbar {
+    height: 0.7rem;
+}
+
+#pathcrumbs>.breadcrumb-item {
+    display: inline;
 }
 
 #pathcntnt {
+    overflow: auto;
+    display: block;
+    position: relative;
+    width: 100%;
+    height: calc(89vh - 10%);
+}
+
+#pathcntnt>ul {
     list-style: none;
+}
+
+#pathcntnt>ul.dirs>li {
+    display: inline-block;
+    margin-right: 1rem;
 }
