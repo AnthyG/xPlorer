@@ -5,8 +5,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <script src="./js/jquery.min.js" onload="window.$ = window.jQuery = module.exports;"></script>
+    <script>
+        if (typeof module === 'object') {
+            window.module = module;
+            module = undefined;
+        }
+    </script>
+    <script src="./js/jquery.min.js"></script>
     <script src="./js/jquery.hotkeys.min.js"></script>
+    <script>
+        if (window.module) module = window.module;
+    </script>
 
     <link rel="stylesheet" type="text/css" href="./css/spectre.min.css" />
     <link rel="stylesheet" type="text/css" href="./css/style.min.css" />
