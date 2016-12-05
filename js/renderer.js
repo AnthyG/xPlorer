@@ -22,7 +22,7 @@ function humanFileSize(bytes, si) {
     return bytes.toFixed(1) + ' ' + units[u];
 }
 
-function navto(to) {
+function navto(to, ishi) {
     if (typeof to !== 'undefined' && typeof to !== 'null' && to !== "" && typeof to === 'string') {
         to = to;
     } else {
@@ -30,6 +30,16 @@ function navto(to) {
         to = ".";
     }
     DIR = to;
+    if (ishi !== true) {
+        DIRHISTORYa.push(to);
+        DIRHISTORYi = DIRHISTORYa.length - 1;
+        // console.log(DIRHISTORYa);
+        // console.log(DIRHISTORYi);
+        // if (DIRHISTORYi < DIRHISTORYa.length - 1) {
+        //     DIRHISTORYa.splice(DIRHISTORYi, DIRHISTORYa.length - 1);
+        // }
+    }
+
     fs.realpath(to, function(err, rTo) {
         $('#pathcrumbs').html('');
         $('#pathcntnt').find('.pathcntnt').html('');
@@ -134,7 +144,7 @@ function searcher(srch) {
 }
 
 var DIR = '.';
-var DIRHISTORY = [];
+var DIRHISTORYa = [];
 var DIRHISTORYi = 0;
 $(document).on('ready', function() {
     $('#pathcrumbs').on('dblclick', function(e) {
@@ -154,10 +164,20 @@ $(document).on('ready', function() {
         $('#pathinput').addClass('hide');
     });
     $('.path_back').on('click', function(e) {
-
+        if (DIRHISTORYi > 0) {
+            DIRHISTORYi--;
+            console.log(DIRHISTORYa);
+            console.log(DIRHISTORYi);
+            navto(DIRHISTORYa[DIRHISTORYi], true);
+        }
     });
     $('.path_for').on('click', function(e) {
-
+        if (DIRHISTORYi < DIRHISTORYa.length - 1) {
+            DIRHISTORYi++;
+            console.log(DIRHISTORYa);
+            console.log(DIRHISTORYi);
+            navto(DIRHISTORYa[DIRHISTORYi], true);
+        }
     });
     $('.path_up').on('click', function(e) {
         navto(DIR + "\\..");
@@ -247,10 +267,10 @@ $(document).on('ready', function() {
 })();
 
 var CONTEXTER;
-ipc.on('OPEN', function(event, arg) {
+ipc.on('OPEN', function(event) {
     shell.openItem(CONTEXTER);
 });
 
-ipc.on('change_DIR', function(event, arg) {
-    navto(arg);
+ipc.on('change_DIR', function(event, ndir) {
+    navto(ndir);
 });
