@@ -10,27 +10,34 @@ const ipc = electron.ipcMain
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
-let mainWindow
+let mWs = []
 
-function createWindow() {
-    // Create the browser window.
-    mainWindow = new BrowserWindow({ width: 800, height: 600, frame: false, titleBarStyle: 'hidden' })
+function createWindow(ndir) {
+    var ndir = ndir || __dirname // OR OPTIONS.PATH
+        // Create the browser window.
+    var mWx = mWs.push(new BrowserWindow({ width: 800, height: 600, frame: false, titleBarStyle: 'hidden' })) - 1
 
     // and load the index.html of the app.
-    mainWindow.loadURL(`file://${__dirname}/index.html`)
+    mWs[mWx].loadURL(`file://${__dirname}/index.html`)
 
     // Open the DevTools.
     // mainWindow.webContents.openDevTools()
 
     // Emitted when the window is closed.
-    mainWindow.on('closed', function() {
+    mWs[mWx].on('closed', function() {
         // Dereference the window object, usually you would store windows
         // in an array if your app supports multi windows, this is the time
         // when you should delete the corresponding element.
-        mainWindow = null
+        (function(mWx2) {
+            mWs.splice(mWx2, 1);
+        })(mWx)
     })
 
-    mainWindow.show()
+    mWs[mWx].show()
+    mWs[mWx].webContents.on('did-finish-load', () => {
+        console.log("Sending Initial DIR >> " + ndir)
+        mWs[mWx].webContents.send('change_DIR', ndir)
+    })
 }
 
 // This method will be called when Electron has finished
@@ -101,8 +108,12 @@ for (let arrX in menu_file_arr) {
 //     })
 // })
 
-ipc.on('show-menu_file', function(event) {
+ipc.on('show-menu_file', function(event, arg) {
     BACKSEND = event
     const win = BrowserWindow.fromWebContents(event.sender)
     menu_file.popup(win)
+})
+
+ipc.on('new_window', function(event, DIR) {
+    createWindow(DIR)
 })

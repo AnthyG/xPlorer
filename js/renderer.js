@@ -23,7 +23,12 @@ function humanFileSize(bytes, si) {
 }
 
 function navto(to) {
-    var to = to || ".";
+    if (typeof to !== 'undefined' && typeof to !== 'null' && to !== "" && typeof to === 'string') {
+        to = to;
+    } else {
+        console.log(typeof to);
+        to = ".";
+    }
     DIR = to;
     fs.realpath(to, function(err, rTo) {
         $('#pathcrumbs').html('');
@@ -128,12 +133,10 @@ function searcher(srch) {
     }
 }
 
-var DIR = ".";
-var DIRHISTORY_b = [];
-var DIRHISTORY_f = [];
+var DIR = '.';
+var DIRHISTORY = [];
+var DIRHISTORYi = 0;
 $(document).on('ready', function() {
-    navto(DIR);
-
     $('#pathcrumbs').on('dblclick', function(e) {
         $('#pathcrumbs').toggleClass('hide');
         $('#pathinput').toggleClass('hide');
@@ -204,6 +207,10 @@ $(document).on('ready', function() {
         // $(".upperbar").find('.path-part').removeClass('hide');
         searcher("");
     });
+
+    $(document).on('keydown', null, 'ctrl+n', function(e) {
+        ipc.send('new_window', DIR);
+    });
 });
 
 
@@ -242,4 +249,8 @@ $(document).on('ready', function() {
 var CONTEXTER;
 ipc.on('OPEN', function(event, arg) {
     shell.openItem(CONTEXTER);
+});
+
+ipc.on('change_DIR', function(event, arg) {
+    navto(arg);
 });
