@@ -48,7 +48,9 @@ function navto(to, ishi) {
         var fncs;
         fncs = [];
         var a = 0;
-        rTo.split("\\").forEach(pathpart => {
+        var rToS = rTo.split("\\");
+        $('#WIN_TITLE').html(rToS[rToS.length]);
+        rToS.forEach(pathpart => {
             if (tillpathparts !== "") {
                 tillpathparts += "\\" + pathpart;
             } else {
@@ -267,7 +269,7 @@ $(document).on('ready', function() {
 })();
 
 var CONTEXTER;
-ipc.on('OPEN', function(event) {
+ipc.on('OPEN_FILE', function(event) {
     shell.openItem(CONTEXTER);
 });
 

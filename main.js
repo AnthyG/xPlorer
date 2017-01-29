@@ -1,4 +1,5 @@
 const electron = require('electron')
+const fs = require('fs')
     // Module to control application life.
 const app = electron.app
     // Module to create native browser window.
@@ -35,8 +36,15 @@ function createWindow(ndir) {
 
     mWs[mWx].show()
     mWs[mWx].webContents.on('did-finish-load', () => {
-        console.log("Sending Initial DIR >> " + ndir)
+        // console.log("Sending Initial DIR >> " + ndir)
         mWs[mWx].webContents.send('change_DIR', ndir)
+        mWs[mWx].webContents.on('context-menu', function(e, params) {
+            menu_general.popup(mWs[mWx], params.x, params.y)
+            return false
+        })
+    })
+    mWs[mWx].on('page-title-updated', function(event, title) {
+        mWs[mWx].setTitle(title)
     })
 }
 
@@ -64,13 +72,39 @@ app.on('activate', function() {
 
 // In this file you can include the rest of your app's specific main process
 // code. You can also put them in separate files and require them here.
-var BACKSEND = undefined
-const menu_file = new Menu()
+
+// const menu_general_arr = {}
+// const menu_file_arr = {}
+// eval('var menu_general_arr = ' + fs.readFile('./js/menu_arrs.js'))
+const menu_general_arr = {
+    'New Window': {
+        label: 'New Window',
+        accelerator: 'Ctrl+N',
+        click: function(menuItem, browserWindow, event) {
+            createWindow()
+        }
+    },
+    '': '',
+    'toggledevtools': {
+        label: 'Toggle Developer Tools',
+        role: 'toggledevtools',
+        accelerator: process.platform === 'darwin' ? 'Alt+Command+I' : 'Ctrl+Shift+I',
+        windowMethod: 'toggleDevTools'
+    },
+    'togglefullscreen': {
+        label: 'Toggle Full Screen',
+        role: 'togglefullscreen',
+        accelerator: process.platform === 'darwin' ? 'Control+Command+F' : 'F11',
+        windowMethod: (window) => {
+            window.setFullScreen(!window.isFullScreen())
+        }
+    }
+}
 const menu_file_arr = {
     'Open': {
         label: 'Open',
         click: function(menuItem, browserWindow, event) {
-            BACKSEND.sender.send('OPEN', 'pong')
+            BACKSEND.sender.send('OPEN_FILE')
         }
     },
     '': '',
@@ -91,6 +125,10 @@ const menu_file_arr = {
         label: 'Delete'
     }
 }
+
+let menu_general = new Menu()
+let menu_file = new Menu()
+
 for (let arrX in menu_file_arr) {
     var arrY = menu_file_arr[arrX]
     if (arrY === '') {
@@ -101,13 +139,22 @@ for (let arrX in menu_file_arr) {
         menu_file.append(new MenuItem(arrY))
     }
 }
+for (let arrX in menu_general_arr) {
+    var arrY = menu_general_arr[arrX]
+    if (arrY === '') {
+        var nMI = new MenuItem({
+            type: 'separator'
+        })
+        menu_file.append(nMI)
+        menu_general.append(nMI)
+    } else {
+        var nMI = new MenuItem(arrY)
+        menu_file.append(nMI)
+        menu_general.append(nMI)
+    }
+}
 
-// app.on('browser-window-created', function(event, win) {
-//     win.webContents.on('context-menu', function(e, params) {
-//         menu_file.popup(win, params.x, params.y)
-//     })
-// })
-
+var BACKSEND = undefined
 ipc.on('show-menu_file', function(event, arg) {
     BACKSEND = event
     const win = BrowserWindow.fromWebContents(event.sender)

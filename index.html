@@ -25,7 +25,7 @@
     <link rel="stylesheet" href="./css/Material_Icons.min.css" />
     <link rel="stylesheet" href="./css/font-awesome.min.css" />
 
-    <title>xPlorer</title>
+    <title id="WIN_TITLE">xPlorer</title>
 </head>
 
 <body>
@@ -37,7 +37,7 @@
                 <button id="close-btn"></button>
             </div>
         </div>
-        <div class="upperbar">
+        <div class="upperbar container">
             <div class="input-group">
                 <button class="path_back btn btn-primary input-group-btn path-part"><i class="mdi">arrow_back</i></button>
                 <button class="path_for btn btn-primary input-group-btn path-part"><i class="mdi">arrow_forward</i></button>
@@ -63,7 +63,7 @@
     <script>
         document.write(process.versions.electron)
     </script>.-->
-    <div id="pathcntnt">
+    <div id="pathcntnt" class="container">
         <ul class="pathcntnt dirs"></ul>
         <div class="divider"></div>
         <table class="pathcntntC table table-hover">
